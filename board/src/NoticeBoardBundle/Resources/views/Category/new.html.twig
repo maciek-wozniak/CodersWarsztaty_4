@@ -1,0 +1,14 @@
+{% extends 'NoticeBoardBundle::main.html.twig' %}
+
+{% block body -%}
+    <h3>Nowa kategoria</h3>
+
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+    {{ form(form) }}
+
+
+        <a class="btn btn-success btn-xs" href="{{ path('admin_category') }}">
+            Powrót
+        </a>
+
+{% endblock %}

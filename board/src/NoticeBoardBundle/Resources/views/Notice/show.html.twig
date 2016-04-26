@@ -1,0 +1,80 @@
+{% extends 'NoticeBoardBundle::main.html.twig' %}
+
+{% block body -%}
+
+    <h5>Ogłoszenie dodane przez
+        {{ notice.user }}
+        {{ notice.creationDate|date('H:i d-m-Y') }}
+    </h5>
+
+    <div class="panel panel-default" style="margin: 0;">
+        <div class="panel-heading" style="font-weight: bold;">{{ notice.title }}</div>
+        <div class="panel-body">{{ notice.description }}
+
+            {% if notice.picture is not null %}
+                <br><img src="{{ asset(notice.picture.path) }}" style="max-width: 100px; min-width: 100px;"/>
+            {% endif %}
+
+        </div>
+        <div class="panel-footer" style="font-size: x-small;">
+            Ważne do: {{ notice.expirationDate|date('H:i d-m-Y') }}
+        </div>
+    </div>
+
+    <div style="margin-top: 7px;">
+        <a class="btn btn-default btn-xs" href="{{ path('comment_new', {'noticeId': notice.id}) }}">Dodaj komentarz</a>
+
+        {% if app.user is not null %}
+            {% if is_granted('ROLE_ADMIN') or app.user == notice.user %}
+
+                <a class="btn btn-default btn-xs" href="{{ path('notice_edit', { 'id': notice.id }) }}">Edytuj</a>
+
+                {{ form_start(delete_form, { 'attr': {'style': 'margin: 0; padding: 0; display: inline;'} }) }}
+
+                {{ form_errors(delete_form) }}
+
+
+                {{ form_widget(delete_form.submit) }}
+
+                {{ form_end(delete_form) }}
+
+            {% endif %}
+        {% endif %}
+
+    </div>
+
+
+
+    {% for comment in notice.comments %}
+        <div class="well well-sm" style="margin: 0px; margin-top: 10px;">
+            <div style="font-size: x-small;">
+                {% if comment.user %}
+                    {{ comment.user }}
+                {% else %}
+                    Anonimowy użytkownik
+                {% endif %}
+
+                {{ comment.creationDate|date('H:i d-m-Y') }}
+                napisał:
+            </div>
+
+            {{ comment.commenttext }}
+
+
+        </div>
+
+        {% if app.user is not null %}
+            {% if is_granted('ROLE_ADMIN') or app.user.id == notice.user.id %}
+                <div style="margin-top: 2px;">
+                    <form action="/comment/{{ comment.id }}/notice/{{ notice.id }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <input type="submit" value="Delete" class="btn btn-default btn-xs confirm">
+                    </form>
+                </div>
+            {% endif %}
+        {% endif %}
+
+    {% endfor %}
+
+
+{% endblock %}

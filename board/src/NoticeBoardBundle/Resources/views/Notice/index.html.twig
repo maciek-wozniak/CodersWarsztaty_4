@@ -1,0 +1,35 @@
+{% extends 'NoticeBoardBundle::main.html.twig' %}
+
+{% block body -%}
+
+
+    <h3>Wszystkie ogłoszenia
+        {% if category is defined %}
+            w kategorii {{ category }}:
+        {% endif %}
+    </h3>
+
+
+    {% for notice in notices %}
+
+        <div class="panel panel-default" style="margin-top: 10px;">
+            <div class="panel-heading" style="font-weight: bold;">{{ notice.title }}</div>
+            <div class="panel-body">{{ notice.description }}
+                {% if notice.picture is not null %}
+                    <br><img src="{{ asset(notice.picture.path) }}" style="max-width: 100px; min-width: 100px;"/>
+                {% endif %}
+            </div>
+            <div class="panel-footer" style="font-size: x-small;">
+                <a href="/notice/{{ notice.id }}">Komentarze: {{ notice.comments|length }}</a><br>
+                Dodane przez:
+                {{ notice.user }}
+                {{ notice.creationDate|date('H:i d-m-Y') }}<br>
+                Ważne do: {{ notice.expirationDate|date('H:i d-m-Y') }}
+            </div>
+        </div>
+    {% else %}
+        Aktualnie nie ma ogłoszeń
+    {% endfor %}
+
+
+{% endblock %}

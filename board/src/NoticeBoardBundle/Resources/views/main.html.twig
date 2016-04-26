@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Tablica ogłoszeń{% endblock %}</title>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+    <script src="{{ asset('sweetalert/dist/sweetalert.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('sweetalert/dist/sweetalert.css') }}">
+    <script src="{{ asset('js/scripts.js') }}" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <nav class="navbar navbar-inverse" style="margin-top: 2px;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand active" href="/">Ogłoszenia</a>
+            </div>
+            <ul class="nav navbar-nav">
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('noticeboard_notice_showexpired') }}">Nieaktualne ogłoszenia</a></li>
+                {% endif %}
+
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Kategorie</a>
+
+                    <ul class="dropdown-menu">
+                        {{ render(controller(
+                        'NoticeBoardBundle:Board:showCategoriesMenu'
+                        )) }}
+                    </ul>
+                </li>
+
+                {% if is_granted('ROLE_USER') %}
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Moje ogłoszenia</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('noticeboard_board_showusernotices', {'userId': app.user.id}) }}">Aktualne</a></li>
+                            <li><a href="{{ path('noticeboard_board_showexpiredusernotices', {'userId': app.user.id}) }}">Przeterminowane</a></li>
+                            <li><a href="{{ path('notice_new') }}">Nowe ogłoszenie</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Zarządzaj
+                            kategoriami</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('admin_category') }}">Pokaż wszystkie</a></li>
+                            <li><a href="{{ path('admin_category_new') }}">Dodaj nową</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+
+
+                {% if is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('fos_user_profile_show') }}">Profil</a></li>
+                    <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                {% endif %}
+
+
+                {% if not is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
+                    <li><a href="{{ path('fos_user_registration_register') }}">Rejestracja</a></li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
+    <div style="width: 50%; margin: auto;">
+        {% block body %}{% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>

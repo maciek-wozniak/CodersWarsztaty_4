@@ -1,0 +1,12 @@
+{% extends 'NoticeBoardBundle::main.html.twig' %}
+
+{% block body %}
+
+    {% for notice in notices %}
+        {{ notice.title }}
+    {% else %}
+        Brak ogłoszeń
+    {% endfor %}
+
+{% endblock %}
+

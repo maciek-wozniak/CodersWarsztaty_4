@@ -1,0 +1,9 @@
+{% extends 'NoticeBoardBundle::main.html.twig' %}
+
+{% block body -%}
+    <h3>Nowe ogłoszenie</h3>
+
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+    {{ form(form) }}
+
+{% endblock %}

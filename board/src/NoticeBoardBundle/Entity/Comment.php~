@@ -1,0 +1,120 @@
+<?php
+
+namespace NoticeBoardBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Comment
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Comment
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment_text", type="text")
+     */
+    private $commentText;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user", type="integer")
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Notice", inversedBy="comments")
+     */
+    private $notice;
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set notice
+     *
+     * @param integer $notice
+     * @return Comment
+     */
+    public function setNotice($notice)
+    {
+        $this->notice = $notice;
+
+        return $this;
+    }
+
+    /**
+     * Get notice
+     *
+     * @return integer 
+     */
+    public function getNotice()
+    {
+        return $this->notice;
+    }
+
+    /**
+     * Set commentText
+     *
+     * @param string $commentText
+     * @return Comment
+     */
+    public function setCommentText($commentText)
+    {
+        $this->commentText = $commentText;
+
+        return $this;
+    }
+
+    /**
+     * Get commentText
+     *
+     * @return string 
+     */
+    public function getCommentText()
+    {
+        return $this->commentText;
+    }
+
+    /**
+     * Set user
+     *
+     * @param integer $user
+     * @return Comment
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return integer 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}
