@@ -17,7 +17,7 @@ Website was created using:
 Implemented features:
 - registration
 - user login and logout
-- editing user profil
+- edit user profil
 - admin can add and manage notice's categories
 - logged user can add notice with optional one picture
 - notice will be displayed on board till expiration date
