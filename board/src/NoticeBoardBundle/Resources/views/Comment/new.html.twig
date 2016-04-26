@@ -1,0 +1,17 @@
+{% extends 'NoticeBoardBundle::main.html.twig' %}
+
+{% block body -%}
+    <h5>Dodaj komentarz:</h5>
+
+    <div class="panel panel-default" style="margin-bottom: 10px;">
+        <div class="panel-heading" style="font-weight: bold;">{{ notice.title }}</div>
+        <div class="panel-body">{{ notice.description }}</div>
+        <div class="panel-footer" style="font-size: x-small;">
+            Ważne do: {{ notice.expirationDate|date('H:i d-m-Y') }}
+        </div>
+    </div>
+
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+    {{ form(form) }}
+
+{% endblock %}
